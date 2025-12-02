@@ -1,5 +1,5 @@
 timer_delay = 75
-list = arraylist
+list = ArrayList
 
 window_size_x = 1024
 window_size_y = 768
