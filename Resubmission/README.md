@@ -1,6 +1,6 @@
 MassiveMotion draws an orange sun at the center of the screen and spawns white stars
 from the window edges that move across the screen. You can change the list implementations
-by inputting in the txt file that you choose to input, given that it ahs the same parameters.
+by inputting in the txt file that you choose to input, given that it has the same parameters.
 
 How to use:
 1. Change the MassiveMotion.txt file to the desired parameters and List Type you want to implement:
