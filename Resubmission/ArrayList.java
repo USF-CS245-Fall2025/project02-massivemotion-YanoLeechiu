@@ -1,6 +1,6 @@
 /**
- * Simple dynamic array with doubling growth.
- * @param <T> element type
+ * simpleDynamicArrayWithDoublingGrowth
+ * @param <T> elementType
  */
 public class ArrayList<T> implements List<T> {
     private T[] elements;
@@ -8,21 +8,21 @@ public class ArrayList<T> implements List<T> {
 
     @SuppressWarnings("unchecked")
     public ArrayList() {
-        elements = (T[]) new Object[10]; // initial capacity
+        elements = (T[]) new Object[10]; // initialCapacity
         size = 0;
     }
 
-    /** O(1): return current number of elements */
+    /** returnCurrentNumberOfElements (O(1)) */
     public int size() { return size; }
 
-    /** O(1): append to the end */
+    /** appendToEnd (amortized O(1)) */
     public boolean add(T element) {
-        grow(size + 1);          // ensure capacity
+        grow(size + 1);          // ensureCapacity
         elements[size++] = element;
         return true;
     }
 
-    /** O(n): insert at index (shift tail right) */
+    /** insertAtIndexShiftTailRight (O(n)) */
     public void add(int index, T element) {
         if (index < 0 || index > size) throw new IndexOutOfBoundsException();
         grow(size + 1);
@@ -31,25 +31,25 @@ public class ArrayList<T> implements List<T> {
         size++;
     }
 
-    /** O(1): read at index */
+    /** getAtIndex (O(1)) */
     public T get(int index) {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
         return elements[index];
     }
 
-    /** O(n): remove at index (shift tail left) */
+    /** removeAtIndexShiftTailLeft (O(n)) */
     public T remove(int index) {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
         T out = elements[index];
         for (int i = index; i < size - 1; i++) elements[i] = elements[i + 1];
-        elements[--size] = null; // avoid loitering
+        elements[--size] = null; // avoidLoitering
         return out;
     }
 
-    /** O(n) when growth happens: double capacity when full */
+    /** growCapacityByDoublingWhenFull (O(n) when resize happens) */
     @SuppressWarnings("unchecked")
     private void grow(int capacity) {
-        if (capacity <= elements.length){
+        if (capacity <= elements.length) {
             return;
         }
         int newCapacity = Math.max(elements.length * 2, capacity);

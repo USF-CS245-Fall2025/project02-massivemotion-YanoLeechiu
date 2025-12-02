@@ -1,7 +1,7 @@
 import java.awt.*;
 
 /**
- * Drawable body with position, velocity, radius, and color.
+ * drawableBodyWithPositionVelocityRadiusAndColor
  */
 public class CelestialBody {
     public double x, y;
@@ -18,18 +18,18 @@ public class CelestialBody {
         this.isStar = isStar;
     }
 
-    /** Advance one tick by adding velocity to position */
+    /** advanceOneTickByAddingVelocityToPosition */
     public void step(){
         x += vx;
         y += vy;
     }
 
-    /** True if the body is completely offscreen */
+    /** returnsTrueIfBodyIsCompletelyOffscreen */
     public boolean isOffscreen(int width, int height){
         return (x + radius < 0) || (x - radius > width) || (y + radius < 0) || (y - radius > height);
     }
 
-    /** Draw as a filled circle centered at (x, y) */
+    /** drawAsFilledCircleCenteredAtXY */
     public void draw(Graphics2D g){
         g.setColor(color);
         int d = radius * 2;

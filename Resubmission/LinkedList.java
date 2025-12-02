@@ -1,25 +1,25 @@
 /**
- * Singly linked list (head pointer).
+ * singlyLinkedListHeadPointer
  */
 public class LinkedList<T> implements List<T> {
 
-    /** Node with value and next pointer */
+    /** nodeWithValueAndNextPointer */
     private static class Node<T> {
         T value;
         Node<T> next;
         Node(T v) { this.value = v; }
     }
 
-    private Node<T> head; // first node
-    private int size;     // element count
+    private Node<T> head; // firstNode
+    private int size;     // elementCount
 
-    /** Create empty list */
+    /** createEmptyList */
     public LinkedList() { head = null; size = 0; }
 
-    /** O(1) */
+    /** returnSizeO1 */
     public int size() { return size; }
 
-    /** O(n): append at tail */
+    /** appendAtTailOn */
     public boolean add(T element) {
         Node<T> node = new Node<>(element);
         if (head == null) {
@@ -33,7 +33,7 @@ public class LinkedList<T> implements List<T> {
         return true;
     }
 
-    /** O(n): insert at index */
+    /** insertAtIndexOn */
     public void add(int index, T element) {
         if (index < 0 || index > size) throw new IndexOutOfBoundsException();
         if (index == 0) {
@@ -49,7 +49,7 @@ public class LinkedList<T> implements List<T> {
         size++;
     }
 
-    /** O(n): read at index */
+    /** readAtIndexOn */
     public T get(int index) {
         if (index < 0 || index >= size){
             throw new IndexOutOfBoundsException();
@@ -57,7 +57,7 @@ public class LinkedList<T> implements List<T> {
         return nodeAt(index).value;
     }
 
-    /** O(n): remove at index */
+    /** removeAtIndexOn */
     public T remove(int index) {
         if (index < 0 || index >= size){
             throw new IndexOutOfBoundsException();
@@ -76,7 +76,7 @@ public class LinkedList<T> implements List<T> {
         return out;
     }
 
-    /** O(n): walk to node at i */
+    /** walkToNodeAtIndexOn */
     private Node<T> nodeAt(int i) {
         Node<T> cur = head;
         for (int k = 0; k < i; k++){

@@ -8,41 +8,42 @@ import java.util.Properties;
 import java.util.Random;
 
 /**
- * Swing animation that spawns white stars from edges and an orange sun at center.
+ * swingAnimationWithConfigDrivenList
+ * Spawns white stars from edges and an orange sun at center.
  * List implementation is chosen via MassiveMotion.txt (key: list).
  */
 public class MassiveMotion extends JPanel implements ActionListener {
 
     protected Timer tm;
 
-    // Window + animation defaults (overridden by MassiveMotion.txt)
-    private int windowWidth = 640;
-    private int windowHeight = 480;
+    // windowAndAnimationDefaults (overridden by MassiveMotion.txt)
+    private int windowWidth = 1024;
+    private int windowHeight = 768;
     private final Random rng = new Random();
 
-    // Will be constructed after reading 'list' from file
+    // bodiesContainerConstructedAfterReadingListChoice
     private List<CelestialBody> bodies;
 
-    // Animation knobs with defaults (overridden by MassiveMotion.txt)
+    // animationKnobsWithDefaults (overridden by MassiveMotion.txt)
     private int timerDelay = 75;
-    private double genX = 0.06;     // spawn chance per tick on top/bottom
-    private double genY = 0.06;     // spawn chance per tick on left/right
-    private int bodySize = 10;      // radius of spawned white stars
-    private int bodyVelocity = 3;   // max |vx| and |vy| for spawned stars
-    private int starSize = 30;      // radius of the center orange sun
-    private double starVX = 0;      // sun vx
-    private double starVY = 0;      // sun vy
-    private int starX;              // sun x (from file or centered)
-    private int starY;              // sun y (from file or centered)
+    private double genX = 0.06;     // spawnChanceTopBottom
+    private double genY = 0.06;     // spawnChanceLeftRight
+    private int bodySize = 10;      // whiteStarRadius
+    private int bodyVelocity = 3;   // maxAbsVelocityForSpawnedStars
+    private int starSize = 30;      // centerSunRadius
+    private double starVX = 0;      // sunVelocityX
+    private double starVY = 0;      // sunVelocityY
+    private int starX;              // sunCenterX
+    private int starY;              // sunCenterY
 
-    /** Loads config, chooses list impl, sets up panel/timer, creates the sun. */
+    /** loadConfigChooseListSetupPanelAndCreateSun */
     public MassiveMotion() {
         Properties p = new Properties();
         try (FileInputStream fis = new FileInputStream("MassiveMotion.txt")) {
             p.load(fis);
         } catch (IOException ignored) { }
 
-        // Choose list implementation from file
+        // chooseListImplementationFromFile
         String listChoice = p.getProperty("list", "arraylist").trim().toLowerCase();
         switch (listChoice) {
             case "arraylist":
@@ -58,11 +59,11 @@ public class MassiveMotion extends JPanel implements ActionListener {
                 bodies = new DoublyLinkedList<>();
                 break;
             default:
-                System.out.println("Unknown list '" + listChoice + "'. Defaulting to ArrayListImpl.");
+                System.out.println("Unknown list '" + listChoice + "'. Defaulting to ArrayList.");
                 bodies = new ArrayList<>();
         }
 
-        // Load remaining config (or keep defaults)
+        // loadNumericAndPositionConfigOrUseDefaults
         timerDelay   = getInt(p, "timer_delay",   timerDelay);
         windowWidth  = getInt(p, "window_size_x", windowWidth);
         windowHeight = getInt(p, "window_size_y", windowHeight);
@@ -83,11 +84,11 @@ public class MassiveMotion extends JPanel implements ActionListener {
 
         tm = new Timer(timerDelay, this);
 
-        // Add central sun
+        // addCentralSun
         bodies.add(new CelestialBody(starX, starY, starVX, starVY, starSize, Color.ORANGE, true));
     }
 
-    /** Paints all bodies and ensures the timer runs. */
+    /** paintAllBodiesAndEnsureTimerRuns */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -100,25 +101,25 @@ public class MassiveMotion extends JPanel implements ActionListener {
         tm.start();
     }
 
-    /** One tick: move, cull offscreen, maybe spawn, repaint. */
+    /** tickMoveCullSpawnAndRepaint */
     @Override
     public void actionPerformed(ActionEvent e) {
-        // move bodies
+        // moveBodies
         for (int i = 0; i < bodies.size(); i++) bodies.get(i).step();
 
-        // remove offscreen (backward to keep indices valid)
+        // removeOffscreenBackwardToKeepIndicesValid
         for (int i = bodies.size() - 1; i >= 0; i--) {
             if (bodies.get(i).isOffscreen(windowWidth, windowHeight)) bodies.remove(i);
         }
 
-        // spawn new stars
+        // maybeSpawnNewStars
         maybeSpawnXEdge();
         maybeSpawnYEdge();
 
         repaint();
     }
 
-    /** Possibly spawn on top/bottom edges, push inward vertically. */
+    /** maybeSpawnFromTopOrBottomAndPushInwardVertically */
     private void maybeSpawnXEdge() {
         if (rng.nextDouble() < genX) {
             boolean top = rng.nextBoolean();
@@ -130,7 +131,7 @@ public class MassiveMotion extends JPanel implements ActionListener {
         }
     }
 
-    /** Possibly spawn on left/right edges, push inward horizontally. */
+    /** maybeSpawnFromLeftOrRightAndPushInwardHorizontally */
     private void maybeSpawnYEdge() {
         if (rng.nextDouble() < genY) {
             boolean left = rng.nextBoolean();
@@ -142,7 +143,7 @@ public class MassiveMotion extends JPanel implements ActionListener {
         }
     }
 
-    /** Random non-zero (vx, vy) with |v| ≤ bodyVelocity */
+    /** randomNonZeroVelocityWithinBodyVelocity */
     private int[] nonZeroVelocity() {
         int vx = 0, vy = 0;
         while (vx == 0) vx = rng.nextInt(bodyVelocity * 2 + 1) - bodyVelocity;
@@ -150,19 +151,19 @@ public class MassiveMotion extends JPanel implements ActionListener {
         return new int[]{vx, vy};
     }
 
-    /** Parse int property or return default. */
+    /** parseIntOrDefault */
     private static int getInt(Properties p, String key, int def){
         try { return Integer.parseInt(p.getProperty(key, String.valueOf(def)).trim()); }
         catch (Exception e){ return def; }
     }
 
-    /** Parse double property or return default. */
+    /** parseDoubleOrDefault */
     private static double getDouble(Properties p, String key, double def){
         try { return Double.parseDouble(p.getProperty(key, String.valueOf(def)).trim()); }
         catch (Exception e){ return def; }
     }
 
-    /** Entry point: create and show the window. */
+    /** createWindowAndStartProgram */
     public static void main(String[] args) {
         JFrame jf = new JFrame("Massive Motion");
         MassiveMotion mm = new MassiveMotion();
