@@ -27,7 +27,7 @@ ArrayList	        O(1)	O(1)	    O(n)(shift)	         O(n) (shift)
 LinkedList  	    O(n)	O(n)	    O(n)	             O(n)
 DHLinkedList	    O(n)	O(n)	    O(n)	             O(n)
 DoublyLinkedList	O(n/2)	O(1)	    O(n/2)	             O(n/2)
-
+ 
 
 Class Descriptions: 
 
