@@ -5,7 +5,7 @@ by inputting in the txt file that you choose to input, given that it ahs the sam
 How to use:
 1. Change the MassiveMotion.txt file to the desired parameters and List Type you want to implement:
    - arraylist
-   - dummyheadlinkedlist
+   - dummyheadlinkedlist 
    - doublylinkedlist
    - linkedlist
 2. Compile with javac MassiveMotion.java
