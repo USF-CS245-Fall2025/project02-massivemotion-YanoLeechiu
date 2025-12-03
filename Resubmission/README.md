@@ -50,6 +50,6 @@ List:
 - void add(int index, T element) - add at index
 - T get(int index) - read
 - T remove(int index) - remove at index
-
+ 
 
 Zoom demonstration link: https://us06web.zoom.us/clips/share/lrU51IwITkabQgA77INiHw
